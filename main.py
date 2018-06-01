@@ -200,10 +200,12 @@ if __name__ == '__main__':
     #num_sample = 100
     #num_feature = 5
 
-    #set up the general data
+    #general format data
     mapper = Mapper("map_config.txt")
     general_data = mapper.get_general_data()
     print("general data:",general_data)
+
+    #label
     label_file = "label.txt"
     with open(label_file) as f:
         content = f.readlines()
@@ -222,32 +224,71 @@ if __name__ == '__main__':
             new_data = numpy.array([numpy.concatenate((general_data[i],[label[i]]))])
             #print(total_data[label[i]])
             total_data[label[i]] = numpy.concatenate((total_data[label[i]],new_data),axis = 0)
-    #print(total_data)
-    #get train and test data
+
+    print("total data:",total_data)
+    #convert general data into proper input formats
+    feature_list=[]
+    string_dict={}
+    input_data={}
+    with open("input_config.txt") as f:
+        content = f.readlines()
+    input_config = [x.strip() for x in content]
+    for i in range(len(input_config)):
+        feature_line = input_config[i].split(' ')
+        feature_list.append([int(feature_line[0]),feature_line[2]])
+        if(int(feature_line[1])==2):
+            string_dict[int(feature_line[0])] = {}
+            for i in range(2,int((len(feature_line))/2)):
+                string_dict[int(feature_line[0])][feature_line[2*i-1]]=feature_line[2*i]
+    #print("feature_list:",feature_list)
+    print("string_dict:",string_dict)
+    for i in range(len(label_type)):
+        input_data[label_type[i]]=[]
+        for j in range(total_data[label_type[i]].shape[0]):
+            input_j=[]
+            for k in range(len(feature_list)):
+                feature_k = feature_list[k]
+                #print("feature_k:",feature_k[0],feature_k[1])
+                if feature_k[0] in string_dict.keys():
+                    input_j.append(convert_data(string_dict[feature_k[0]][total_data[label_type[i]][j,int(feature_k[0])]],feature_k[1]))
+                else:
+                    #print("total_data:",total_data[label_type[i]][j,int(feature_k[0])])
+                    #print("data_type:",feature_k[1])
+                    #print("converted_data:",convert_data(total_data[label_type[i]][j,int(feature_k[0])],feature_k[1]))
+                    input_j.append(convert_data(total_data[label_type[i]][j,int(feature_k[0])],feature_k[1]))
+            input_j.append(total_data[label_type[i]][j][-1])
+            #print("input_j:",input_j)
+            input_data[label_type[i]].append(input_j)
+        input_data[label_type[i]]=numpy.array(input_data[label_type[i]])
+        #print("input_data:",input_data)
+
     train = []
     test = numpy.zeros((0,mapper.num_feature+1))
     print(test.shape)
     test_lstm = []
     #data_preprocess = Preprocess(num_feature)
+
     for i in range(len(label_type)):
-        #train_i, test_i = data_preprocess.importText(in_file[i],i,num_sample)
-        num_sample = total_data[label_type[i]].shape[0]
-        train_i = total_data[label_type[i]][0:int(0.8*num_sample),:]
-        test_i = total_data[label_type[i]][int(0.8*num_sample):,:]
-        print(test_i.shape)
+        #num_sample = total_data[label_type[i]].shape[0]
+        #train_i = total_data[label_type[i]][0:int(0.8*num_sample),:]
+        #test_i = total_data[label_type[i]][int(0.8*num_sample):,:]
+        num_sample = input_data[label_type[i]].shape[0]
+        train_i = input_data[label_type[i]][0:int(0.8*num_sample),:]
+        test_i = input_data[label_type[i]][int(0.8*num_sample):,:]
+        #print(test_i.shape)
         train.append(train_i)
         test = numpy.concatenate((test, test_i),axis=0)
         test_lstm.append(test_i)
 
-    print(train)
-    print(test)
+    #print(train)
+    #print(test)
 
     #train models
     with open("model_config.txt") as f:
         content = f.readlines()
     model_config = [x.strip() for x in content]
     for i in range(int(len(model_config)/2)):
-        model_type = int(model_config[2*i])
+        model_type = int(model_config[2*i].split(' ')[0])
         model_parameters = model_config[2*i+1].split(' ')
         if model_type == 0:
             train_svm(train,test,model_parameters)

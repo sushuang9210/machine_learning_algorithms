@@ -1,0 +1,4 @@
+0 0 0 #feature0,int->int
+1 2 0 William 0 Frank 1 Jane 2 #feature1,string->int
+2 2 0 Shakespeare 0 Schiller 1 Wall 2 #feature2,string->int
+3 2 0 m 0 f 1 #feature3,string->int

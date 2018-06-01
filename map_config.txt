@@ -1,4 +1,4 @@
-1
-5
-1 1 1 0 0
-../data/attack/feature.txt 
+1 #text file
+5 #num_features
+1 1 1 0 0 #float float float int int
+../data/attack/feature.txt #file_location

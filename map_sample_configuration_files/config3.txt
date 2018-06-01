@@ -1,5 +1,5 @@
-3
-6
-0 2 2 2 2 2
-company.db
-employee
+3 #sql
+6 #num_features
+0 2 2 2 2 2 #int string string string string string
+company.db #db_name
+employee #table_name

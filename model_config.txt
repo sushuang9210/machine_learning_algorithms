@@ -1,20 +1,20 @@
-0
-0.001 10000
-1
-5 10 1 1
-2
-1
-3
-4 mean_squared_error adam 100 1
-4
-1e5
-5
-1 SAMME 200
-6
-mean_squared_error adam 100 1
-7
-distance
-8
-200
-9
-1e-2 lsqr
+0 #svm
+0.001 10000 #eta,epochs
+1 #random_forest
+5 10 1 1 #n_trees,max_depth,min_size,sample_size
+2 #pca
+1 #n_components
+3 #lstm
+4 mean_squared_error adam 100 1 #history_length,loss,optimizer,epochs,batch_size
+4 #logistic_regression
+1e5 #C
+5 #adaboost
+1 SAMME 200 #max_depth,algorithm,n_estimators
+6 #neural_network
+mean_squared_error adam 100 1 #loss,optimizer,epochs,batch_size
+7 #k_nearest_neighbors
+distance #weights
+8 #perceptron
+200 #n_iter
+9 #ridge
+1e-2 lsqr #tol,solver

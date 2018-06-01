@@ -1,8 +1,8 @@
-4
-6
-0 2 2 2 2 2
-company
-localhost
-employee
-pytester
-monty
+4 #mysql
+6 #num_features
+0 2 2 2 2 2 #int string string string string string
+company #db_name
+localhost #db_ip
+employee #table_name
+pytester #username
+monty #password

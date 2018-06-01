@@ -1,9 +1,10 @@
-5
-6
-2 2 2 2 2 2
-ORA12G.oracle.com
-10.1.1.29
-1522
-pet
-shuang
-shuang
+5 #oracle
+6 #num_features
+2 2 2 2 2 2 #string string string string string string
+ORA12G.oracle.com #db_name
+10.1.1.29 #db_ip
+1522 #db_port
+pet #table_name
+shuang #username
+shuang #password
+/opt/instantclient_12_2/ #oracle_path

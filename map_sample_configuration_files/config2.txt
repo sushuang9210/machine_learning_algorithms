@@ -1,9 +1,9 @@
-2
-5
-1 1 1 0 0
-jy
-10.1.1.54
-27017
-10.1.1.10/10.1.1.10/10.1.1.10
-util,cpu util,disk util,mem util,net_in util,net_out
-0
+2 #mongodb
+5 #num_features
+1 1 1 0 0 #float float float int int
+jy #db_name
+10.1.1.54 #db_ip
+27017 #db_port
+10.1.1.10/10.1.1.10/10.1.1.10 #collection_name
+util,cpu util,disk util,mem util,net_in util,net_out #key_name
+0 #not use username
